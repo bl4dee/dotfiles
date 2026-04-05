@@ -1,0 +1,60 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+gen=$(readlink /nix/var/nix/profiles/system | grep -o '[0-9]*' | tail -1)
+date=$(date -Iseconds)
+outdir="$(dirname "$0")/generations"
+outfile="$outdir/gen-${gen}.txt"
+pkgfile="$outdir/gen-${gen}-packages.txt"
+
+{
+  echo "Generation: $gen"
+  echo "Date: $date"
+  echo "NixOS Version: $(cat /run/current-system/nixos-version)"
+  echo "Kernel: $(uname -r)"
+  echo ""
+  echo "=== systemd-analyze ==="
+  systemd-analyze
+  echo ""
+  echo "=== systemd-analyze blame (top 20) ==="
+  systemd-analyze blame | head -20 || true
+  echo ""
+  echo "=== systemd-analyze critical-chain ==="
+  systemd-analyze critical-chain --no-pager
+} > "$outfile"
+
+# collect all package names from every source
+{
+  echo "# Generation $gen - $date"
+  echo "# system + home-manager + nix-profile packages"
+  echo ""
+  {
+    readlink /run/current-system/sw/bin/* 2>/dev/null || true
+    readlink /etc/profiles/per-user/*/bin/* 2>/dev/null || true
+    readlink ~/.nix-profile/bin/* 2>/dev/null || true
+  } | sed 's|/nix/store/[a-z0-9]*-||' | sed 's|/bin/.*||' | sort -u
+} > "$pkgfile"
+
+echo "logged generation $gen -> $outfile"
+echo "logged packages   $gen -> $pkgfile"
+
+# diff against previous generation
+prev=$((gen - 1))
+prevpkg="$outdir/gen-${prev}-packages.txt"
+if [[ -f "$prevpkg" ]]; then
+  added=$(comm -13 <(grep -v '^#' "$prevpkg" | grep -v '^$' | sort) <(grep -v '^#' "$pkgfile" | grep -v '^$' | sort))
+  removed=$(comm -23 <(grep -v '^#' "$prevpkg" | grep -v '^$' | sort) <(grep -v '^#' "$pkgfile" | grep -v '^$' | sort))
+  if [[ -n "$added" ]]; then
+    echo ""
+    echo "=== added since gen $prev ==="
+    echo "$added"
+  fi
+  if [[ -n "$removed" ]]; then
+    echo ""
+    echo "=== removed since gen $prev ==="
+    echo "$removed"
+  fi
+  if [[ -z "$added" && -z "$removed" ]]; then
+    echo "no package changes since gen $prev"
+  fi
+fi

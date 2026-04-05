@@ -1,0 +1,51 @@
+Generation: 33
+Date: 2026-04-05T11:30:27-07:00
+NixOS Version: 26.05.20260316.5b2c2d8
+Kernel: 6.18.18
+
+=== systemd-analyze ===
+Startup finished in 9.639s (firmware) + 5.185s (loader) + 999ms (kernel) + 2.472s (initrd) + 10.927s (userspace) = 29.225s 
+graphical.target reached after 10.927s in userspace.
+
+=== systemd-analyze blame (top 20) ===
+19.347s systemd-tmpfiles-clean.service
+ 5.595s NetworkManager-wait-online.service
+ 3.689s dev-disk-by\x2ddesignator-esp.device
+ 3.248s sys-devices-pci0000:00-0000:00:01.1-0000:01:00.0-nvme-nvme0-nvme0n1-nvme0n1p1.device
+ 3.248s dev-disk-by\x2ddiskseq-1\x2dpart1.device
+ 3.248s dev-disk-by\x2did-nvme\x2dINTEL_SSDPEKNW010T8_PHNH904104671P0B_1\x2dpart1.device
+ 3.248s dev-disk-by\x2did-nvme\x2dINTEL_SSDPEKNW010T8_PHNH904104671P0B\x2dpart1.device
+ 3.248s dev-disk-by\x2dpath-pci\x2d0000:01:00.0\x2dnvme\x2d1\x2dpart-by\x2dpartuuid-a2828817\x2d1b80\x2d4f7e\x2db389\x2db9dd6403dda6.device
+ 3.248s dev-disk-by\x2dpath-pci\x2d0000:01:00.0\x2dnvme\x2d1\x2dpart-by\x2dpartnum-1.device
+ 3.248s dev-disk-by\x2duuid-BEB1\x2d24AA.device
+ 3.248s dev-disk-by\x2dpath-pci\x2d0000:01:00.0\x2dnvme\x2d1\x2dpart1.device
+ 3.248s dev-disk-by\x2dpath-pci\x2d0000:01:00.0\x2dnvme\x2d1\x2dpart-by\x2dpartlabel-ESP.device
+ 3.248s dev-disk-by\x2dpath-pci\x2d0000:01:00.0\x2dnvme\x2d1\x2dpart-by\x2duuid-BEB1\x2d24AA.device
+ 3.248s dev-disk-by\x2did-nvme\x2deui.0000000001000000e4d25c19fc735001\x2dpart1.device
+ 3.248s dev-nvme0n1p1.device
+ 3.248s dev-disk-by\x2dpartuuid-a2828817\x2d1b80\x2d4f7e\x2db389\x2db9dd6403dda6.device
+ 3.248s dev-disk-by\x2dpartlabel-ESP.device
+ 3.235s sys-devices-platform-serial8250-serial8250:0-serial8250:0.2-tty-ttyS2.device
+ 3.235s dev-ttyS2.device
+ 3.234s dev-ttyS0.device
+
+=== systemd-analyze critical-chain ===
+The time when unit became active or started is printed after the "@" character.
+The time the unit took to start is printed after the "+" character.
+
+graphical.target @10.927s
+└─multi-user.target @10.801s
+  └─docker.service @9.385s +1.415s
+    └─network-online.target @9.383s
+      └─NetworkManager-wait-online.service @3.788s +5.595s
+        └─NetworkManager.service @2.906s +880ms
+          └─basic.target @2.830s
+            └─dbus-broker.service @2.523s +287ms
+              └─dbus.socket @2.513s +327us
+                └─sysinit.target @2.487s
+                  └─systemd-update-utmp.service @2.411s +12ms
+                    └─systemd-tmpfiles-setup.service @2.346s +61ms
+                      └─local-fs.target @2.339s
+                        └─boot.mount @1.747s +591ms
+                          └─systemd-fsck@dev-disk-by\x2duuid-74B9\x2d66E3.service @1.683s +59ms
+                            └─dev-disk-by\x2duuid-74B9\x2d66E3.device
