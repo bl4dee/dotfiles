@@ -32,6 +32,7 @@ _: {
       zig
 
       # typescript/javascript
+      bun
       typescript-language-server
       prettierd
 
@@ -82,7 +83,9 @@ _: {
       claude-code
       opencode
 
-      # ide for notebooks
+      # editors and ides
+      vscode
+      code-cursor
       jetbrains.pycharm
     ];
   };

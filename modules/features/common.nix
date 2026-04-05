@@ -66,6 +66,7 @@
     # services
     services.printing.enable = true;
     services.netbird.enable = true;
+    services.ollama.enable = true;
 
     # programs
     programs.firefox.enable = true;

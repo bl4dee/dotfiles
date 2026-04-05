@@ -8,6 +8,7 @@ _: {
       torsocks
 
       # media
+      jamesdsp
       obs-studio
       vlc
       mpv
@@ -53,6 +54,7 @@ _: {
 
       # misc
       spotify
+      rustdesk
     ];
   };
 }
