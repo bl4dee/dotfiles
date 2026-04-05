@@ -108,8 +108,8 @@
 
     xdg.configFile."hypr/hyprland.conf".text = ''
       # monitors
-      monitor = DP-2, 2560x1440@240, 0x0, 1, transform, 1
-      monitor = DP-3, 3440x1440@240, 1440x540, 1
+      monitor = HDMI-A-2, 1920x1080@120, 0x180, 1
+      monitor = DP-1, 2560x1440@144, 1920x0, 1
 
       # cursor
       env = HYPRCURSOR_THEME,Bibata-Modern-Classic

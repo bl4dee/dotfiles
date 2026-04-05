@@ -7,17 +7,13 @@ _: {
     services.greetd = {
       enable = true;
       settings.default_session = {
-        command = "${pkgs.tuigreet}/bin/tuigreet --time --remember-session --asterisks --issue --cmd 'uwsm start hyprland-uwsm.desktop'";
+        command = "${pkgs.tuigreet}/bin/tuigreet --time --remember --remember-session --asterisks --issue --sessions /run/current-system/sw/share/wayland-sessions";
         user = "greeter";
       };
     };
 
-    # register hyprland with uwsm properly
-    programs.uwsm.waylandCompositors.hyprland = {
-      prettyName = "Hyprland";
-      comment = "Hyprland compositor managed by UWSM";
-      binPath = "/run/current-system/sw/bin/Hyprland";
-    };
+    # kde plasma
+    services.desktopManager.plasma6.enable = true;
 
     # prevent late boot messages from printing over tuigreet
     systemd.services.greetd.serviceConfig = {

@@ -226,7 +226,7 @@
           wallpaperChange = "";
         };
         location = {
-          name = "Santa Cruz";
+          name = "San Francisco";
           analogClockInCalendar = false;
           firstDayOfWeek = -1;
           showCalendarEvents = true;
@@ -281,7 +281,7 @@
           audioCodec = "opus";
           audioSource = "default_output";
           colorRange = "limited";
-          directory = "/home/fbad/Videos";
+          directory = "/home/blink/Videos";
           frameRate = 60;
           quality = "very_high";
           showCursor = true;

@@ -274,9 +274,10 @@ _: {
 
     programs.zellij = {
       enable = true;
+      enableZshIntegration = false;
       settings = {
         theme = "catppuccin-mocha";
-        default_layout = "compact";
+        default_layout = "default";
         show_startup_tips = false;
       };
     };

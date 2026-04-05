@@ -49,9 +49,7 @@ _: {
       netbird
       netbird-ui
       remmina
-
-      # matlab
-      matlab
+      protonvpn-gui
 
       # misc
       spotify

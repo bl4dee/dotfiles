@@ -74,6 +74,8 @@
       enable = true;
       package = pkgs.wireshark;
     };
+    programs.coolercontrol.enable = true; #to control system fans
+    services.hardware.openrgb.enable = true; #to control gpu/peripheral leds
 
     # shell
     programs.zsh.enable = true;
@@ -96,9 +98,9 @@
     ];
 
     # user
-    users.users.fbad = {
+    users.users.blink = {
       isNormalUser = true;
-      description = "fbad";
+      description = "blink";
       extraGroups = [
         "networkmanager"
         "wheel"
@@ -106,6 +108,7 @@
         "kvm"
         "wireshark"
         "docker"
+        "video"
       ];
       shell = pkgs.zsh;
     };

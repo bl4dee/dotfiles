@@ -16,24 +16,21 @@
       self.nixosModules.anonymity
       self.nixosModules.networking
       self.nixosModules.flatpak
+      self.nixosModules.openrazer
       self.nixosModules.homeManager
     ];
 
     nixpkgs.config.allowUnfree = true;
-    nixpkgs.overlays = [inputs.nix-matlab.overlay];
 
     networking.hostName = "desktop";
 
-    boot.loader.grub = {
-      enable = true;
-      device = "/dev/nvme0n1";
-      useOSProber = true;
-      configurationLimit = 5;
-    };
+    boot.loader.systemd-boot.enable = true;
+    boot.loader.systemd-boot.configurationLimit = 5;
+    boot.loader.efi.canTouchEfiVariables = true;
     boot.loader.timeout = 0;
-    boot.kernelModules = ["kvm-intel" "kvm-amd"];
+    boot.initrd.systemd.enable = true;
+    boot.kernelModules = ["kvm-amd"];
     boot.extraModprobeConfig = ''
-      options kvm-intel nested=1
       options kvm-amd nested=1
     '';
   };
