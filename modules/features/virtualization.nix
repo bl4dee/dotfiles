@@ -21,7 +21,6 @@ _: {
       libvirt
       dnsmasq
       phodav
-      virtio-win # VirtIO drivers ISO for Windows VMs
     ];
   };
 }
