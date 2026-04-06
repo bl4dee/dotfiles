@@ -59,6 +59,9 @@ _: {
       typst
       tinymist
 
+      # hardware tools
+      imsprog
+
       # security and pentesting
       nmap
       wireshark
