@@ -10,9 +10,26 @@
   flake.homeModules.hyprland = {
     pkgs,
     lib,
+    osConfig,
     ...
   }: let
     noctaliaExe = lib.getExe self.packages.${pkgs.stdenv.hostPlatform.system}.noctalia-shell;
+
+    monitors =
+      if osConfig.networking.hostName == "laptop"
+      then ''
+        # internal panel: eDP-2 on the amd igpu, eDP-1 if the mux hands it to nvidia
+        monitor = eDP-1, preferred, auto, 1
+        monitor = eDP-2, preferred, auto, 1
+        monitor = , preferred, auto, 1
+
+        # render on the amd igpu, nvidia dgpu (hdmi port) second
+        env = AQ_DRM_DEVICES,/dev/dri/by-path/pci-0000:c3:00.0-card:/dev/dri/by-path/pci-0000:c2:00.0-card
+      ''
+      else ''
+        monitor = HDMI-A-2, 1920x1080@120, 0x180, 1
+        monitor = DP-1, 2560x1440@144, 1920x0, 1
+      '';
 
     screenshot = lib.getExe (pkgs.writeShellApplication {
       name = "screenshot-region";
@@ -108,8 +125,7 @@
 
     xdg.configFile."hypr/hyprland.conf".text = ''
       # monitors
-      monitor = HDMI-A-2, 1920x1080@120, 0x180, 1
-      monitor = DP-1, 2560x1440@144, 1920x0, 1
+      ${monitors}
 
       # cursor
       env = HYPRCURSOR_THEME,Bibata-Modern-Classic
@@ -256,6 +272,11 @@
       binde = , XF86AudioRaiseVolume, exec, wpctl set-volume -l 1.4 @DEFAULT_AUDIO_SINK@ 5%+
       binde = , XF86AudioLowerVolume, exec, wpctl set-volume -l 1.4 @DEFAULT_AUDIO_SINK@ 5%-
       bind = , XF86AudioMute, exec, wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle
+      bind = , XF86AudioMicMute, exec, wpctl set-mute @DEFAULT_AUDIO_SOURCE@ toggle
+
+      # backlight (laptop fn keys, inert on the desktop keyboard)
+      binde = , XF86MonBrightnessUp, exec, ${lib.getExe pkgs.brightnessctl} set 5%+
+      binde = , XF86MonBrightnessDown, exec, ${lib.getExe pkgs.brightnessctl} set 5%-
 
       # window rules
       windowrule = tile on, match:class org.wezfurlong.wezterm
