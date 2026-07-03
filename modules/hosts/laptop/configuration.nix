@@ -71,6 +71,18 @@
     # laptop firmware updates via lvfs
     services.fwupd.enable = true;
 
+    # user runs plasma and wants everything on the nvidia gpu: kwin renders on
+    # the dgpu (external hdmi is wired to it — avoids the igpu→dgpu copy that
+    # stutters on window moves/app opens), igpu kept second so the internal
+    # panel still lights up in hybrid mode. render offload vars point gl/vulkan
+    # apps at nvidia as well.
+    environment.sessionVariables = {
+      KWIN_DRM_DEVICES = "/dev/dri/dgpu:/dev/dri/igpu";
+      __NV_PRIME_RENDER_OFFLOAD = "1";
+      __GLX_VENDOR_LIBRARY_NAME = "nvidia";
+      __VK_LAYER_NV_optimus = "NVIDIA_only";
+    };
+
     # stable, colon-free gpu nodes for hyprland's AQ_DRM_DEVICES (aquamarine
     # splits that list on ':', so /dev/dri/by-path names are unusable);
     # matching on ID_PATH also skips the firmware simple-framebuffer node
