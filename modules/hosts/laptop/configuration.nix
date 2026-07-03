@@ -77,6 +77,23 @@
     services.udev.extraRules = ''
       SUBSYSTEM=="drm", KERNEL=="card*", ENV{ID_PATH}=="pci-0000:c3:00.0", SYMLINK+="dri/igpu"
       SUBSYSTEM=="drm", KERNEL=="card*", ENV{ID_PATH}=="pci-0000:c2:00.0", SYMLINK+="dri/dgpu"
+      SUBSYSTEM=="power_supply", ATTR{type}=="Mains", RUN+="${pkgs.systemd}/bin/systemctl start --no-block power-profile-on-ac.service"
     '';
+
+    # always max performance on ac, balanced on battery
+    systemd.services.power-profile-on-ac = {
+      description = "set power profile based on ac state";
+      after = ["power-profiles-daemon.service"];
+      requires = ["power-profiles-daemon.service"];
+      wantedBy = ["multi-user.target"];
+      serviceConfig.Type = "oneshot";
+      script = ''
+        if [ "$(cat /sys/class/power_supply/AC/online)" = "1" ]; then
+          ${pkgs.power-profiles-daemon}/bin/powerprofilesctl set performance
+        else
+          ${pkgs.power-profiles-daemon}/bin/powerprofilesctl set balanced
+        fi
+      '';
+    };
   };
 }
