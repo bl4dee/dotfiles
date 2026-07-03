@@ -23,8 +23,10 @@
         monitor = eDP-2, preferred, auto, 1
         monitor = , preferred, auto, 1
 
-        # render on the amd igpu, nvidia dgpu (hdmi port) second
-        env = AQ_DRM_DEVICES,/dev/dri/by-path/pci-0000:c3:00.0-card:/dev/dri/by-path/pci-0000:c2:00.0-card
+        # render on the amd igpu, nvidia dgpu (hdmi port) second — via the
+        # colon-free udev symlinks from the laptop host (aquamarine splits
+        # this list on ':', so by-path names would get shredded)
+        env = AQ_DRM_DEVICES,/dev/dri/igpu:/dev/dri/dgpu
       ''
       else ''
         monitor = HDMI-A-2, 1920x1080@120, 0x180, 1

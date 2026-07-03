@@ -65,5 +65,13 @@
 
     # laptop firmware updates via lvfs
     services.fwupd.enable = true;
+
+    # stable, colon-free gpu nodes for hyprland's AQ_DRM_DEVICES (aquamarine
+    # splits that list on ':', so /dev/dri/by-path names are unusable);
+    # matching on ID_PATH also skips the firmware simple-framebuffer node
+    services.udev.extraRules = ''
+      SUBSYSTEM=="drm", KERNEL=="card*", ENV{ID_PATH}=="pci-0000:c3:00.0", SYMLINK+="dri/igpu"
+      SUBSYSTEM=="drm", KERNEL=="card*", ENV{ID_PATH}=="pci-0000:c2:00.0", SYMLINK+="dri/dgpu"
+    '';
   };
 }

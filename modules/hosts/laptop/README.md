@@ -25,8 +25,11 @@ The internal panel is wired to **both** GPUs; in hybrid mode (default) it shows 
 `eDP-2` on the AMD iGPU. If the MUX hands it to NVIDIA it becomes `eDP-1`. The **HDMI
 port is hardwired to the dGPU**; USB-C DP-alt outputs sit on the iGPU. The hyprland
 home module gates monitor rules on `osConfig.networking.hostName`, and on the laptop
-pins the render device to the iGPU via `AQ_DRM_DEVICES` (stable `by-path` names, so
-card enumeration order doesn't matter).
+pins the render device to the iGPU via `AQ_DRM_DEVICES=/dev/dri/igpu:/dev/dri/dgpu` —
+udev symlinks created by this host, keyed on `ID_PATH` so card enumeration order
+doesn't matter. **Don't use `/dev/dri/by-path` names there**: aquamarine splits the
+list on `:` and PCI paths contain colons, which crashes Hyprland at launch with
+"Found no gpus to use" (learned the hard way on first boot).
 
 ## nvidia
 
