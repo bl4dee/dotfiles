@@ -43,6 +43,11 @@
     # strix point is happiest on the newest kernel in the pin
     boot.kernelPackages = pkgs.linuxPackages_latest;
 
+    # kill panel self refresh entirely (0x10 psr + 0x200 psr-su + 0x400 panel
+    # replay): the panel freezing itself to save power causes visible ~1s
+    # hangs, on windows too. costs some battery on the internal display.
+    boot.kernelParams = ["amdgpu.dcdebugmask=0x610"];
+
     # blackwell mobile gpus are only supported by the open kernel modules;
     # internal panel + usb-c outputs sit on the amd igpu, hdmi is wired to the dgpu
     hardware.graphics.enable = true;
