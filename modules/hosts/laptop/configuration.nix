@@ -40,7 +40,7 @@
       options kvm-amd nested=1
     '';
 
-    # strix point igpu + mediatek mt7925 wifi want the newest kernel in the pin
+    # strix point is happiest on the newest kernel in the pin
     boot.kernelPackages = pkgs.linuxPackages_latest;
 
     # blackwell mobile gpus are only supported by the open kernel modules;
@@ -59,7 +59,7 @@
         offload.enable = true;
         offload.enableOffloadCmd = true;
         amdgpuBusId = "PCI:195:0:0"; # 0000:c3:00.0 radeon 890m
-        nvidiaBusId = "PCI:194:0:0"; # 0000:c2:00.0 rtx 5090 mobile
+        nvidiaBusId = "PCI:194:0:0"; # 0000:c2:00.0 rtx 5080 mobile
       };
     };
 

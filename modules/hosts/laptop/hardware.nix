@@ -1,5 +1,5 @@
 _: {
-  # HP OMEN MAX 16-ak0xxx — AMD Ryzen AI 9 HX 375 (Radeon 890M) + RTX 5090 Mobile
+  # HP OMEN MAX 16-ak0xxx — AMD Ryzen AI 9 HX 375 (Radeon 890M) + RTX 5080 Mobile
   # values from nixos-generate-config on the machine
   flake.nixosModules.laptopHardware = {
     config,
