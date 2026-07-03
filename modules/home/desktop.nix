@@ -54,7 +54,6 @@ _: {
 
       # misc
       spotify
-      rustdesk
     ];
   };
 }
