@@ -76,3 +76,9 @@ _Entries below are logged automatically by Claude Code after each rebuild._
 - Added CLAUDE.md and CHANGELOG.md to repo
 
 **Why:** Enable hassle-free testing of old legacy GPUs (GTX 510, 770, etc.) alongside modern cards. Instead of the failed nouveau+nvidia dual-load approach, this uses separate boot profiles — pick "nvidia" or "nouveau" from systemd-boot menu. Nouveau profile built with: `sudo nixos-rebuild boot -p nouveau --flake ~/dotfiles#nouveau`
+
+### Nouveau Profile Generation 1 — 2026-11-05
+
+**Changes:** Built the nouveau boot profile for the first time. Added `unigine-superposition` to system packages in common.nix.
+
+**Why:** Nouveau profile needed for legacy GPU testing. Superposition added so the benchmark is always available without running it as a flake each time.

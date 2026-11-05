@@ -101,6 +101,7 @@
       qdiskinfo
       fio
       gamescope
+      unigine-superposition
     ];
 
     # user
