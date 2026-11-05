@@ -1,22 +1,23 @@
 # Dotfiles - Claude Code Instructions
 
-## NixOS Rebuild Changelog
+## NixOS Rebuild — MANDATORY Post-Rebuild Checklist
 
-After every successful `nixos-rebuild switch`, append an entry to `CHANGELOG.md` in this repo with:
+After EVERY successful `nixos-rebuild switch` or `nixos-rebuild boot`, do ALL of the following immediately:
 
-- **Generation number** (from `nixos-rebuild list-generations | grep True`)
-- **Date**
-- **What changed** — summarize the config changes made
-- **Why** — the motivation/reason for the rebuild
-
-Format:
+1. Get the new generation number: `nixos-rebuild list-generations | grep True`
+2. Append an entry to `CHANGELOG.md` in this repo:
 
 ```
-## Generation XX — YYYY-MM-DD
+### Generation XX — YYYY-MM-DD
 
 **Changes:** brief summary of what was modified
 
 **Why:** reason for the rebuild
 ```
 
-Do this automatically after every rebuild — do not prompt the user. The changelog lives in this repo so it's visible on GitHub and to future agent sessions.
+3. `git add` all changed files + CHANGELOG.md
+4. `git commit` with a descriptive message
+5. `git push` to GitHub
+
+Do this automatically — do not prompt, do not ask permission. This is pre-authorized.
+The changelog must be visible on GitHub for the user and future agents.
