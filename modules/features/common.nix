@@ -71,6 +71,7 @@
     # programs
     programs.firefox.enable = true;
     programs.steam.enable = true;
+    programs.gamescope.enable = true; # stretched 4:3 + resolution control for CS2
     programs.wireshark = {
       enable = true;
       package = pkgs.wireshark;
@@ -96,6 +97,10 @@
       wget
       git
       grim
+      kdiskmark
+      qdiskinfo
+      fio
+      gamescope
     ];
 
     # user
