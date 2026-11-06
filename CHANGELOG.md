@@ -77,8 +77,12 @@ _Entries below are logged automatically by Claude Code after each rebuild._
 
 **Why:** Enable hassle-free testing of old legacy GPUs (GTX 510, 770, etc.) alongside modern cards. Instead of the failed nouveau+nvidia dual-load approach, this uses separate boot profiles — pick "nvidia" or "nouveau" from systemd-boot menu. Nouveau profile built with: `sudo nixos-rebuild boot -p nouveau --flake ~/dotfiles#nouveau`
 
-### Nouveau Profile Generation 1 — 2026-11-05
+### Nouveau Profile Generation 1 — 2026-11-05 (rebuilt)
 
-**Changes:** Built the nouveau boot profile for the first time. Added `unigine-superposition` to system packages in common.nix.
+**Changes:**
+- Rebuilt nouveau boot profile after removing `boot.initrd.kernelModules = ["nouveau"]` — it was pulling 835MB of firmware into the initrd, filling the 1GB ESP
+- Kept `WLR_RENDERER=gles2` for old GPUs that lack working Vulkan
+- Cleaned up stale boot entries and temp files from failed installs
+- Added `unigine-superposition` to system packages in common.nix
 
-**Why:** Nouveau profile needed for legacy GPU testing. Superposition added so the benchmark is always available without running it as a flake each time.
+**Why:** Original nouveau initrd was too large for the ESP. Nouveau loads fine during normal boot without being in the initrd. GLES2 renderer fallback added to prevent Hyprland black screen on old GPUs without NVK Vulkan support.

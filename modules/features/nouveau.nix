@@ -10,5 +10,9 @@ _: {
       "nvidia_drm"
       "nvidia_modeset"
     ];
+
+    # force GLES2 renderer — old GPUs (Fermi, Kepler) may not have
+    # working Vulkan via NVK, which causes Hyprland to black screen
+    environment.sessionVariables.WLR_RENDERER = "gles2";
   };
 }
